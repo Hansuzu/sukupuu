@@ -1,7 +1,13 @@
 #include "connection.cpp"
 #include "connectionhandler.cpp"
-#include <sys/socket.h>
-#include <netinet/in.h>
+
+#ifdef WIN32
+    #include <winsock.h>
+#else
+    #include <sys/socket.h>
+    #include <netinet/in.h>
+#endif
+
 #include <iostream>
 using namespace std;
 
@@ -36,15 +42,31 @@ private:
 public:
   
   int create(int port) {
+#ifdef WIN32
+    WORD wVersionRequested;
+    WSADATA wsaData;
+    wVersionRequested = MAKEWORD(2, 2);
+    if (int err = WSAStartup(wVersionRequested, &wsaData)) {
+        cout << "WSAStartup failed with error: " << err << endl;
+        return 1;
+    }
+#endif
     sock = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
     if (!sock) {
       cerr << "socket creation failed" << endl;
       return 1;
     }
     
-    opt = 1; 
-    if (setsockopt(sock, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT, &opt, sizeof(opt))) { 
-      cerr << "setsocketopt failed" << endl;
+    opt = 1;
+ 
+#ifdef WIN32
+    const char* opts="1";
+    if (int e = setsockopt(sock, SOL_SOCKET, SO_REUSEADDR, (const char*)&opts, sizeof(opts))) { 
+      cerr << "setsocketopt failed (" << WSAGetLastError() << ")" << endl;
+#else
+    if (int e = setsockopt(sock, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT, &opt, sizeof(opt))) { 
+      cerr << "setsocketopt failed (" << e << ")" << endl;
+#endif
       return 1;
     }
     
@@ -74,7 +96,11 @@ public:
     
     int j=0;
     while (j++ < stop_after) {
+#ifdef WIN32
+      int new_socket = accept(sock, (struct sockaddr *)&address_client,  &addrlen);
+#else
       int new_socket = accept(sock, (struct sockaddr *)&address_client,  (socklen_t*)&addrlen);
+#endif
       cout << "accept" << endl;
       if (new_socket >= 0) {
         Connection* c = connection();
