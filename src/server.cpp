@@ -3,11 +3,10 @@
 #include "listener.cpp"
 using namespace std;
 
-const int port = 12345;
   
-int main() {
+int open_server(string filename, int port) { 
   ConnectionHandler c;
-  c.useForest("forest_server");
+  c.useForest(filename);
   
   Listener l(&c);
   if (l.create(port)) {
