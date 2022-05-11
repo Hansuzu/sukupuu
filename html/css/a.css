@@ -1,0 +1,128 @@
+
+body{ 
+  margin:0
+}
+
+/*Person Form div*/
+#e{
+  position:fixed;
+  margin:auto;
+  z-index:999;
+  top: 50%;
+  left: 50%;
+  margin-top: -250px;
+  margin-left: -250px;
+  width:500px;
+  background-color:#eee;
+  border:1px solid black;
+  border-radius: 10px;
+  display:none;
+  padding:5px;
+  overflow-y:scroll;
+  overflow-x:hidden;
+  max-height:500px;
+}
+
+/*Fetch geni div*/
+#l{
+  position:fixed;
+  margin:auto;
+  z-index:999;
+  top: 50%;
+  left: calc(50% + 260px);
+  margin-top: -250px;
+  margin-left: -250px;
+  width:500px;
+  background-color:#eee;
+  border:1px solid black;
+  border-radius: 10px;
+  display:none;
+  padding:5px;
+  overflow-y:scroll;
+  overflow-x:hidden;
+  max-height:500px;
+}
+
+#f{
+  position:fixed;
+  width:100%;
+  background-color:#eee;
+  overflow-y:scroll;
+  overflow-x:hidden;
+  max-height:500px;
+  z-index:999;
+}
+
+
+#g{
+  width:100%;
+}
+
+
+#i{
+  position:fixed;
+  width:100%;
+  height:40px;
+  background-color:#eee;
+  bottom:0px;
+  z-index:1001;
+}
+
+#h{
+  width:100%
+  height:40px;
+}
+
+/* Canvas. set default width and height large so that  */
+#c{
+  width:60000px;
+  height:60000px
+}
+
+.r{
+  width:100%;
+  height:40px;
+  background-color:#fff;
+  cursor:default;
+  font-size:30;
+}
+.r:hover{
+  background-color:#eee;
+}
+
+input:not([type='checkbox']):not([type='button']):not([type='radio']):not([type='number']){
+  width:20em;
+}
+textarea{
+  width:20em;
+}
+
+
+.t {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  margin: -20px;
+  left: 50%;
+  top: 50%;
+  
+}
+
+.t:after {
+  content: " ";
+  display: block;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 6px solid #fff;
+  border-color: rgba(255, 255, 255, .9) transparent transparent transparent;
+  animation: t 1.2s linear infinite;
+}
+@keyframes t {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

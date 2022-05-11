@@ -1,0 +1,4 @@
+cd js
+./minify.sh
+
+
