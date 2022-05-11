@@ -1,6 +1,14 @@
 #include "connectionhandler.cpp"
-#include <sys/socket.h>
-#include <netinet/in.h>
+
+
+#ifdef WIN32
+    #include <winsock.h>
+#else
+    #include <sys/socket.h>
+    #include <netinet/in.h>
+#endif
+
+
 #include <unistd.h>
 #include <iostream>
 using namespace std;
@@ -96,7 +104,7 @@ private:
   
   struct HTTP {
     enum Method {
-      GET, HEAD, POST, PUT, DELETE, CONNECT, OPTIONS, TRACE, PATCH, UNKNOWN
+      GET, HEAD, POST, PUT, _DELETE, CONNECT, OPTIONS, TRACE, PATCH, UNKNOWN
     };
     Method method;
     vector<string> path;
@@ -127,7 +135,7 @@ private:
           } else if (word == "PUT") {
             details.method = HTTP::Method::PUT;
           } else if (word == "DELETE") {
-            details.method = HTTP::Method::DELETE;
+            details.method = HTTP::Method::_DELETE;
           } else if (word == "CONNECT") {
             details.method = HTTP::Method::CONNECT;
           } else if (word == "OPTIONS") {
