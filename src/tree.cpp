@@ -182,8 +182,8 @@ public:
   
   Node* createPerson() {
     Person* p = new Person();
-    p->id=random();
-    while (uids.count(p->id) || !p->id) p->id=random();
+    p->id=rand();
+    while (uids.count(p->id) || !p->id) p->id=rand();
     Node* n = new Node();
     n->person = p;
     nodes.push_back(n);
@@ -193,8 +193,8 @@ public:
   
   Edge* createEdge() {
     Edge* e = new Edge();
-    e->id=random();
-    while (!e->id || eids.count(e->id)) e->id=random();
+    e->id=rand();
+    while (!e->id || eids.count(e->id)) e->id=rand();
     edges.push_back(e);
     eids[e->id]=e;
     return e;
