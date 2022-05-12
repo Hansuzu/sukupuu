@@ -182,7 +182,8 @@ public:
   
   void handle() {
     cout << "handle" << endl;
-    int valread = read(sock, buffer_in, bin_size);
+    int valread = recv(sock, buffer_in, bin_size, 0);
+    cout << "received bytes " << valread << endl;
     buffer_in[valread] = 0;
 //     cout << buffer_in << endl << endl;
     
@@ -206,10 +207,19 @@ public:
       ++a404;
     }
     
-    cout << "send" << endl;
+    cout << "send " << strlen(buffer_out) << endl;
     send(sock, buffer_out, strlen(buffer_out), 0); 
     cout << "close" << endl;
+
+#ifdef WIN32
+    if (int i = shutdown(sock, SD_SEND)) {
+        cout << "shutdown failed with error: " << WSAGetLastError() << endl;
+    }
+    closesocket(sock);
+#else
     close(sock);
+#endif
+
     active = 0;
     cout << "handle done" << endl;
   }
