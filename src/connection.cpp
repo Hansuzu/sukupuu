@@ -221,7 +221,9 @@ public:
 #endif
 
     active = 0;
-    cout << "handle done" << endl;
+    cout << "handle done, will save forest if something changed..." << endl;
+	connection_handler -> save_updates();
+    cout << "forest saved" << endl;
   }
   
   

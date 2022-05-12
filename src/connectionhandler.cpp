@@ -14,6 +14,7 @@ using namespace std;
 class ConnectionHandler {
   string fname;
   Forest forest;
+  bool forest_edited;
   
   int _stoi(string& v) {
     try {
@@ -249,6 +250,7 @@ class ConnectionHandler {
       split(data[PARAM_CHILDREN], children, ',');
       forest.removeAllChildren(node);
       for (int i=0;i<children.size();++i) {
+        if (!children[i].size()) continue;
         Node* child=forest.findById(_stoi(children[i]));
         if (!child) {
           cout << "adding child " << children[i] << " failed, node does not exist..." << endl;
@@ -282,6 +284,7 @@ class ConnectionHandler {
       forest.removeAllMarriages(node);
       vector<string> marriage;
       for (int i=0;i<married.size();++i) {
+        if (!married[i].size()) continue;
         marriage.clear();
         split(married[i], marriage, '.');
         if (marriage.size()<2) {
@@ -377,19 +380,30 @@ public:
         rv=search_users(body_data, response);
       } else if (path[0] == PATH_EDIT_PERSON) {
         rv=edit_person(body_data, response);
+        forest_edited=1;
       } else if (path[0] == PATH_ADD_PERSON) {
         rv=add_person(body_data, responseMap);
+        forest_edited=1;
       } else if (path[0] == PATH_SET_PARENTS) {
         rv=set_parents(body_data, responseMap);
+        forest_edited=1;
       }
     }
-    forest.save(fname);
     return rv;
+  }
+  
+  void save_updates() {
+    if (forest_edited) {
+      cout << "forest will be saved..." << endl;
+      forest.save(fname);
+      forest_edited=0;
+    }
   }
   
   void useForest(string s) {
     fname=s;
     forest.load(s);
+    forest_edited = 0;
   }
 };
 
