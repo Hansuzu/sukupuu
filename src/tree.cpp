@@ -308,22 +308,22 @@ public:
   
   void save(string fname) {
     ofstream f(fname);
-    f << "PERSONS{" << endl;
+    f << "PERSONS{\n";
     for (int i=0;i<nodes.size();++i) {
-      f << "\t" << nodes[i]->person->serialize() << endl;
+      f << "\t" << nodes[i]->person->serialize() << "\n";
     }
-    f << "}" << endl;
-    f << endl;
-    f << "RELATIONS{" << endl;
+    f << "}\n";
+    f << "\n";
+    f << "RELATIONS{\n";
     for (int i=0;i<edges.size();++i) {
       if (!uids.count(edges[i]->a) || !uids.count(edges[i]->b) || !eids.count(edges[i]->id)) {
         cerr << "invalid edge " << edges[i]->id << endl;
         continue;
       }
-      f << "\t" << edges[i]->serialize() << endl;
+      f << "\t" << edges[i]->serialize() << "\n";
     }
-    f << "}" << endl;
-    f << endl;
+    f << "}\n";
+    f << "\n";
     /* DEPRECATED
     f << "EDGES{" << endl;
     for (int i=0;i<nodes.size();++i) {
